@@ -6,8 +6,8 @@ class Car{
         this.height=height;
 
         this.speed=0;
-        this.acceleration =  acceleration;
-        this.maxSpeed= maxSpeed  / 3.6 ; // To scale maxSpeed (that is in km/h) to canvasWidth(that is in pixels)
+        this.acceleration =  acceleration / 2;
+        this.maxSpeed= (maxSpeed  / 3.6) / 2 ; 
         this.friction=friction;
         this.angle=0;
         this.damaged=false;
