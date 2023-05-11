@@ -7,14 +7,12 @@ class Controls{
 
         switch(type){
             case "KEYS":
-                console.log(type);
                 this.#addKeyboardListeners();
                 break;
             case "DUMMY":
-                console.log(type);
                 this.forward=true;
                 break;
-        }    
+        }
     }
 
     #addKeyboardListeners(){
