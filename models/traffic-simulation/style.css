@@ -7,3 +7,57 @@ body{
 #myCanvas{
     background:lightgray;
 }
+#canvasDisplay {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+#keyDisplay {
+    position: absolute;
+    top: 10%;
+    left: 15%;
+}
+#speedDisplay {
+    position: absolute;
+    top: 10%;
+    right: 15%;
+}
+#scenarioDisplay {
+    position: absolute;
+    bottom: 10%;
+    right: 15%;
+}
+.arrow-keypad button {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: gray;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.arrow-keypad button.active {
+    background-color: yellow;
+}
+
+#keyDisplay {
+    display: flex;
+    /* width:5%; */
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+}
+
+#top-btn {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 20px;
+}
+
+#bottom-btns {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}

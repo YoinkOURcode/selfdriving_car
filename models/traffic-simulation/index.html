@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <head>
     <title>Self-driving car - No libraries</title>
+   
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
-    <canvas id="myCanvas"></canvas>
+
+        <div id = "keyDisplay" >
+            <div class="arrow-keypad">
+                <div id="top-btn"><button id="ArrowUp"></button></div>
+                <div id="bottom-btns">
+                    <button id="ArrowLeft"></button>
+                    <button id="ArrowDown"></button>
+                    <button id="ArrowRight"></button>
+                </div>
+            </div>
+        </div>
+        <div id = "canvasDisplay" ><canvas id="myCanvas"></canvas></div>
+        <div id = "speedDisplay"></div>
+        <div id = "scenarioDisplay"></div>
+
     
+</body>
     <script src="sensor.js"></script>
     <script src="../../scripts/utils.js"></script>
     <script src="road.js"></script>
     <script src="controls.js"></script>
     <script src="car.js"></script>
     <script src="../../main.js"></script>
-</body>
 </html>

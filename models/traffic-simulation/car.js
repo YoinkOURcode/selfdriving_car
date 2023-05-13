@@ -6,7 +6,7 @@ class Car{
         this.height=height;
 
         this.speed=0;
-        this.acceleration =  acceleration / 2;
+        this.acceleration =  acceleration / 2 / 3.6;
         this.maxSpeed= (maxSpeed  / 3.6) / 2 ; 
         this.friction=friction;
         this.angle=0;
@@ -25,6 +25,8 @@ class Car{
             this.damaged=this.#assessDamage(roadBorders,traffic);
         }
         if(this.sensor){
+            document.getElementById("speedDisplay").innerHTML = "Current Speed: " + (Math.round(this.speed * 2 * 3.6)) + "km/h";
+
             this.sensor.update(roadBorders,traffic);
         }
     }

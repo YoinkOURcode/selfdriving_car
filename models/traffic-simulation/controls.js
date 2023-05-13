@@ -4,6 +4,8 @@ class Controls{
         this.left=false;
         this.right=false;
         this.reverse=false;
+        this.arrowButtons = document.querySelectorAll('.arrow-keypad button');
+
 
         switch(type){
             case "KEYS":
@@ -17,6 +19,7 @@ class Controls{
 
     #addKeyboardListeners(){
         document.onkeydown=(event)=>{
+            document.getElementById(event.key).classList.add('active');
             switch(event.key){
                 case "ArrowLeft":
                     this.left=true;
@@ -33,6 +36,9 @@ class Controls{
             }
         }
         document.onkeyup=(event)=>{
+            document.getElementById(event.key).classList.remove('active');
+
+
             switch(event.key){
                 case "ArrowLeft":
                     this.left=false;
