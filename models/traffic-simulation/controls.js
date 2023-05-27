@@ -1,9 +1,12 @@
 class Controls{
-    constructor(type){
+    constructor(type, maxGear){
         this.forward=false;
         this.left=false;
         this.right=false;
         this.reverse=false;
+        this.gear = 0;
+        this.maxGear = maxGear;
+        this.changeGear = false;
         this.arrowButtons = document.querySelectorAll('.arrow-keypad button');
 
 
@@ -33,6 +36,14 @@ class Controls{
                 case "ArrowDown":
                     this.reverse=true;
                     break;
+                case "w":
+                    this.changeGear = true;
+                    if (this.gear < this.maxGear) this.gear += 1;
+                    break;
+                case "s":
+                    this.changeGear = true;
+                    if (this.gear > 0) this.gear -= 1;
+                    break;
             }
         }
         document.onkeyup=(event)=>{
@@ -52,6 +63,7 @@ class Controls{
                 case "ArrowDown":
                     this.reverse=false;
                     break;
+               
             }
         }
     }

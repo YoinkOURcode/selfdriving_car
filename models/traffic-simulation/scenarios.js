@@ -1,1 +1,0 @@
-// Make sure to set friction to 0.05 for cars for wet environments

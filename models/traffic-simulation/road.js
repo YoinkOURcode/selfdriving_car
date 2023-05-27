@@ -1,7 +1,7 @@
 class Road{
     //curvePoints refer to the y values where the car will start to bend at
     //curveAngle refers to angle tetha, use sin to find out new x value, increase
-    constructor(x,width,laneCount=3, curvePoints = [[-2000, ]]){ 
+    constructor(x,width,laneCount=2 ){ 
         this.x=x;
         this.width=width;
         this.laneCount=laneCount;
@@ -17,11 +17,14 @@ class Road{
         const topRight={x:this.right,y:this.top};
         const bottomLeft={x:this.left,y:this.bottom};
         const bottomRight={x:this.right,y:this.bottom};
+
+       
         
         this.borders=[
             [topLeft,bottomLeft],
-            [{x:this.left,y:-1000},{x:144.70678963,y:-996.731736779308}],
             [topRight,bottomRight]
+            // [{x:this.right,y:-50},{x:this.right + 50,y:-50}]
+
         ];
     }
 

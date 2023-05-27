@@ -1,5 +1,5 @@
 class Car{
-    constructor(x,y,width,height,  maxSpeed, acceleration, controlType, friction){
+    constructor(x,y,width,height,  maxSpeed, acceleration, controlType, friction, maxGear){
         this.x=x;
         this.y=y;
         this.width=width;
@@ -7,7 +7,8 @@ class Car{
 
         this.speed=0;
         this.acceleration =  acceleration / 2 / 3.6;
-        this.maxSpeed= (maxSpeed  / 3.6) / 2 ; 
+        this.maxSpeedInMS = (maxSpeed  / 3.6) / 2 ; 
+        // this.maxSpeed= (maxSpeed  / 3.6) / 2 ; 
         this.friction=friction;
         this.angle=0;
         this.damaged=false;
@@ -15,20 +16,34 @@ class Car{
         if(controlType!="DUMMY"){
             this.sensor=new Sensor(this);
         }
-        this.controls=new Controls(controlType);
+        // if (scenario == "parking"){
+        //     this.maxSpeed = this.maxSpeed * 0.4
+        // }
+        this.controls=new Controls(controlType, maxGear);
     }
 
     update(roadBorders,traffic){
         if(!this.damaged){
             this.#move();
+            this.#changeGear( 5);
             this.polygon=this.#createPolygon();
             this.damaged=this.#assessDamage(roadBorders,traffic);
         }
         if(this.sensor){
+            document.getElementById("gearCount").innerHTML = "Current Gear: " + this.controls.gear;
             document.getElementById("speedDisplay").innerHTML = "Current Speed: " + (Math.round(this.speed * 2 * 3.6)) + "km/h";
+
 
             this.sensor.update(roadBorders,traffic);
         }
+        else{
+            this.maxSpeed = this.maxSpeedInMS
+        }
+    }
+
+    #changeGear(maxGear){
+        this.maxSpeed = (this.maxSpeedInMS / maxGear) * this.controls.gear;
+
     }
 
     #assessDamage(roadBorders,traffic){
@@ -86,7 +101,7 @@ class Car{
         if(this.speed>0){
             this.speed-=this.friction;
         }
-        if(this.speed<0){
+        if(this.speed<0 || this.controls.gear == 0){
             this.speed+=this.friction;
         }
         if(Math.abs(this.speed)<this.friction){
@@ -96,10 +111,10 @@ class Car{
         if(this.speed!=0){
             const flip=this.speed>0?1:-1;
             if(this.controls.left){
-                this.angle+=0.03*flip;
+                this.angle+=0.0075*flip;
             }
             if(this.controls.right){
-                this.angle-=0.03*flip;
+                this.angle-=0.0075*flip;
             }
         }
 

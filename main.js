@@ -1,36 +1,71 @@
-const canvas=document.getElementById("myCanvas");
-canvas.width=200;
+class Main{
+    constructor(scenario){
+        this.canvas = document.getElementById("myCanvas")
+        this.canvas.width=250;
+        this.ctx = this.canvas.getContext("2d");
+        this.scenario = scenario;
 
-const friction = 0.05;
+        switch(scenario){
+            case "parking":
+                this.roadWidth = 200;
+                this.friction = 0.05;
+                this.road=new Road(this.roadWidth/2,this.roadWidth*0.9, 2, "default");
+                console.log(this.road)
+                this.car = new Car(this.road.getLaneCenter(1),100,30,50, 50, 1.2, 'KEYS',this.friction, 5);
+                this.traffic = [
 
-const ctx = canvas.getContext("2d");
-const road=new Road(canvas.width/2,canvas.width*0.9);
-const car= new Car(road.getLaneCenter(1),100,30,50, 50, 1.2, 'KEYS',friction);
-const traffic = [
-    new Car(road.getLaneCenter(1),-100,30,50, 40, 1.2, 'DUMMY',friction)
-]
+                ];
+                this.generateTrafficInSameLocation()
 
-animate();
+                break;
 
-function animate(){
-    
-    for(let i=0;i<traffic.length;i++){
-        traffic[i].update(road.borders,[]);
+            default:
+                this.roadWidth = 200
+                this.friction = 0.05;
+                this.road=new Road(this.roadWidth/2,this.roadWidth*0.9, 3);
+                this.car = new Car(this.road.getLaneCenter(1),100,30,50, 50, 1.2, 'KEYS',this.friction, 5);
+                this.traffic = [
+                    
+                ];
+
+        }
+
     }
-    car.update(road.borders,traffic);
 
-    canvas.height=window.innerHeight;
-
-    ctx.save();
-    ctx.translate(0,-car.y+canvas.height*0.7);
-
-    road.draw(ctx);
-    for(let i=0;i<traffic.length;i++){
-        traffic[i].draw(ctx,"red");
+    generateTrafficInSameLocation(){
+        setInterval(() => {
+            this.traffic.push(new Car(this.road.getLaneCenter(Math.floor(Math.random() * 2)),350,30,50, 40, 1.2, 'DUMMY',this.friction, "default"))
+        }, Math.floor(Math.random() * 4000) + 1200);
     }
-    car.draw(ctx,"black");
 
-    ctx.restore();
-    requestAnimationFrame(animate);
+    generateTraffic(){
+        for(let i=0;i<this.traffic.length;i++){
+            this.traffic[i].update(this.road.borders,[]);
+        }
+        this.car.update(this.road.borders,this.traffic);
+    }
 
+    drawCars(){
+        for(let i=0;i<this.traffic.length;i++){
+            this.traffic[i].draw(this.ctx,"red");
+        }
+        this.car.draw(this.ctx,"black");
+    }
+
+    animate(){
+        this.generateTraffic();
+
+        this.canvas.height=window.innerHeight;
+        this.ctx.save();
+        this.ctx.translate(0,-this.car.y+this.canvas.height*0.7);
+        this.road.draw(this.ctx);
+
+        this.drawCars();
+
+        this.ctx.restore();
+        requestAnimationFrame(this.animate.bind(this));
+    }
 }
+
+const main = new Main("default");
+main.animate()
