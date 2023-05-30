@@ -6,7 +6,20 @@ class Main{
         this.scenario = scenario;
 
         switch(scenario){
-            case "parking":
+            case "vparking":
+                this.roadWidth = 200;
+                this.friction = 0.05;
+                this.road=new Road(this.roadWidth/2,this.roadWidth*0.9, 2, "default");
+                console.log(this.road)
+                this.car = new Car(this.road.getLaneCenter(1),100,30,50, 50, 1.2, 'KEYS',this.friction, 5);
+                this.traffic = [
+
+                ];
+                this.generateTrafficInSameLocation()
+
+                break;
+
+            case "pparking":
                 this.roadWidth = 200;
                 this.friction = 0.05;
                 this.road=new Road(this.roadWidth/2,this.roadWidth*0.9, 2, "default");
