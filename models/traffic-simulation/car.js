@@ -13,13 +13,17 @@ class Car{
         this.angle=0;
         this.damaged=false;
 
-        if(controlType!="DUMMY"){
-            this.sensor=new Sensor(this);
-        }
+        
         // if (scenario == "parking"){
         //     this.maxSpeed = this.maxSpeed * 0.4
         // }
         this.controls=new Controls(controlType, maxGear);
+        if(controlType!="DUMMY"){
+            this.sensor=new Sensor(this);
+        }
+        else if (controlType == "DUMMY"){
+            this.controls.gear = 4;
+        }
     }
 
     update(roadBorders,traffic){
@@ -31,7 +35,7 @@ class Car{
         }
         if(this.sensor){
             document.getElementById("gearCount").innerHTML = "Current Gear: " + this.controls.gear;
-            document.getElementById("speedDisplay").innerHTML = "Current Speed: " + (Math.round(this.speed * 2 * 3.6)) + "km/h";
+            document.getElementById("speedDisplay").innerHTML = "Current Speed: " + Math.abs((Math.round(this.speed * 2 * 3.6))) + "km/h";
 
 
             this.sensor.update(roadBorders,traffic);
@@ -119,6 +123,11 @@ class Car{
 
         this.x-=Math.sin(this.angle)*this.speed;
         this.y-=Math.cos(this.angle)*this.speed;
+    }
+
+    isDone(){
+        const goalDistanceTravelled = -10000;
+        return (this.y < goalDistanceTravelled);
     }
 
     draw(ctx,color){

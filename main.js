@@ -1,53 +1,56 @@
 class Main{
     constructor(scenario){
         this.canvas = document.getElementById("myCanvas")
-        this.canvas.width=250;
+        this.canvas.width=200;
         this.ctx = this.canvas.getContext("2d");
         this.scenario = scenario;
 
         switch(scenario){
             case "vparking":
-                this.roadWidth = 200;
+                this.roadWidth = 150;
                 this.friction = 0.05;
                 this.road=new Road(this.roadWidth/2,this.roadWidth*0.9, 2, "default");
                 console.log(this.road)
                 this.car = new Car(this.road.getLaneCenter(1),100,30,50, 50, 1.2, 'KEYS',this.friction, 5);
-                this.traffic = [
-
-                ];
-                this.generateTrafficInSameLocation()
+                
+                this.createTraffic(350)
 
                 break;
 
             case "pparking":
-                this.roadWidth = 200;
+                this.roadWidth = 150;
                 this.friction = 0.05;
                 this.road=new Road(this.roadWidth/2,this.roadWidth*0.9, 2, "default");
                 console.log(this.road)
                 this.car = new Car(this.road.getLaneCenter(1),100,30,50, 50, 1.2, 'KEYS',this.friction, 5);
-                this.traffic = [
-
-                ];
-                this.generateTrafficInSameLocation()
+                
+                this.createTraffic(350)
 
                 break;
 
             default:
-                this.roadWidth = 200
+                this.roadWidth = this.canvas.width
                 this.friction = 0.05;
                 this.road=new Road(this.roadWidth/2,this.roadWidth*0.9, 3);
-                this.car = new Car(this.road.getLaneCenter(1),100,30,50, 50, 1.2, 'KEYS',this.friction, 5);
-                this.traffic = [
-                    
-                ];
+                this.car = new Car(this.road.getLaneCenter(2),100,30,50, 50, 1.2, 'KEYS',this.friction, 5);
+                this.createTraffic("RDM")
 
         }
-
     }
 
-    generateTrafficInSameLocation(){
+    createTraffic(y){
+        this.traffic = [
+
+        ];
         setInterval(() => {
-            this.traffic.push(new Car(this.road.getLaneCenter(Math.floor(Math.random() * 2)),350,30,50, 40, 1.2, 'DUMMY',this.friction, "default"))
+            
+            if (!y == "RDM"){
+                this.traffic.push(new Car(this.road.getLaneCenter(Math.floor(Math.random() * 2)),y,30,50, 40, 1.2, 'DUMMY',this.friction, 4))
+            }
+            else{
+                let randomized_y =-(Math.random() * window.innerHeight + (Math.abs(this.car.y) + window.innerHeight));
+                this.traffic.push(new Car(this.road.getLaneCenter(Math.floor(Math.random() * 2)),randomized_y,30,50, 40, 1.2, 'DUMMY',this.friction, 4))
+            }
         }, Math.floor(Math.random() * 4000) + 1200);
     }
 
@@ -80,5 +83,5 @@ class Main{
     }
 }
 
-const main = new Main("default");
+const main = new Main();
 main.animate()
