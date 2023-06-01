@@ -1,10 +1,6 @@
 class Main{
     constructor(scenario){
-        this.canvas = document.getElementById("myCanvas")
-        this.canvas.width=200;
-        this.ctx = this.canvas.getContext("2d");
-        this.scenario = scenario;
-        this.scenarioHandler();
+        this.reset(scenario);
 
         
         // this.x = new NeuralNetwork(this.car.sensor.rayCount, 6);
@@ -47,20 +43,18 @@ class Main{
                 this.roadWidth = this.canvas.width
                 this.friction = 0.075;
                 this.road=new Road(this.roadWidth/2,this.roadWidth*0.9, 3);
-                this.car = new Car(this.road.getLaneCenter(2),100,30,50, 50, 1.2, 'KEYS',this.friction, 5, true);
+                this.car = new Car(this.road.getLaneCenter(1),100,30,50, 50, 1.2, 'KEYS',this.friction, 5, true);
                 this.createTraffic("RDM")
 
         }
     }
 
-    reset(){
+    reset(scenario){
         this.canvas = document.getElementById("myCanvas")
         this.canvas.width=200;
         this.ctx = this.canvas.getContext("2d");
-        this.traffic = [];
-        this.scenario = this.scenario;
-
-        this.scenarioHandler()
+        this.scenario = scenario;
+        this.scenarioHandler();
 
     }
 
@@ -113,5 +107,5 @@ class Main{
 
 const main = new Main("keyControls");
 main.animate()
-// const model = new Model(main)
-// model.trainAgent()
+const model = new Model(main)
+model.trainAgent()

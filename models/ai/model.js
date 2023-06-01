@@ -23,7 +23,7 @@ class Model{
             return 8;
         }
 
-        this.main = main;
+        this.main = main; 
 
         this.environment.getNumStates = () => {
             return this.main.car.sensor.rayCount;
@@ -98,8 +98,8 @@ class Model{
             console.log(this.environment);
         
             // Choose an action using the this.agent's policy
-            const action = this.agent.act(state);
             console.log(state)
+            const action = this.agent.act(state);
         
             // Apply the action to the this.environment
             // Update the sensor data and get the new offset
@@ -123,6 +123,7 @@ class Model{
             if (this.main.car.damaged) {
                 console.log('Crashed into an obstacle!');
                 clearInterval(intervalId);
+                this.main.reset();
             }
             else if (Math.abs(this.main.car.y) > Math.abs(this.finishLine)){
                 console.log("Finished!");
@@ -132,11 +133,10 @@ class Model{
       }, 900)
     }
       
-    
-    // Train the this.agent
+    //Train the this.agent, by running multiple iterations , each iteration having multiple episodes, and an episode running the trainAgentPerFrame() function, and make it so that if the car crashes or takes longer than 30 seconds to reach the finish line, the episode ends.
     async trainAgent(){
         const startTime = Date.now();
-        const endTime = startTime + 30000; // 30 seconds
+        const endTime = startTime + 3000; // 30 seconds
          for (let iteration = 0; iteration < this.numIterations; iteration++) {
             
             for (let episode = 0; episode < this.numEpisodes; episode++) {
@@ -148,7 +148,8 @@ class Model{
                     await this.trainAgentPerFrame();
           
                     // Check if 30 seconds have passed
-                    if (Date.now() >= endTime) {
+                    if (Date.now() >= endTime ) {
+                        console.log("balls")
                       resolve(); // Resolve the promise to exit the loop
                     }
                   };
@@ -173,10 +174,16 @@ class Model{
         console.log(`Iteration ${iteration + 1}/${this.numIterations} completed.`);
         }
         console.log(this.rewards);
-        const model = this.agent.toJSON();
-        const jsonString = JSON.stringify(model);
-        this.downloadModel(jsonString, 'model.json');
+        // const model = this.agent.toJSON();
+        // const jsonString = JSON.stringify(model);
+        // this.downloadModel(jsonString, 'model.json');
     }   
+
+
+            
+
+    
+    
 
     
 
