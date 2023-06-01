@@ -38,7 +38,7 @@ class Car{
         if(this.sensor){
             document.getElementById("gearCount").innerHTML = "Current Gear: " + this.controls.gear;
             document.getElementById("speedDisplay").innerHTML = "Current Speed: " + Math.abs((Math.round(this.speed * 2 * 3.6))) + "km/h";
-            this.offsets = this.sensor.readings.map(s => s==null?0:1-s.offset);
+            this.offsets = this.sensor.readings.map(s => s==null?1:s.offset);
 
             this.sensor.update(roadBorders,traffic);
         }

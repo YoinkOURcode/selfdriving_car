@@ -43,7 +43,7 @@ class Main{
                 this.roadWidth = this.canvas.width
                 this.friction = 0.075;
                 this.road=new Road(this.roadWidth/2,this.roadWidth*0.9, 3);
-                this.car = new Car(this.road.getLaneCenter(1),100,30,50, 50, 1.2, 'KEYS',this.friction, 5, true);
+                this.car = new Car(this.road.getLaneCenter(2),100,30,50, 50, 1.2, 'KEYS',this.friction, 5, true);
                 this.createTraffic("RDM")
 
         }
