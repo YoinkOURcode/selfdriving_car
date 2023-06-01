@@ -1,5 +1,5 @@
 class Controls{
-    constructor(type, maxGear){
+    constructor(type, maxGear, selfdrive){
         this.forward=false;
         this.left=false;
         this.right=false;

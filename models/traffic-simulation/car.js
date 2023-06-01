@@ -1,5 +1,5 @@
 class Car{
-    constructor(x,y,width,height,  maxSpeed, acceleration, controlType, friction, maxGear){
+    constructor(x,y,width,height,  maxSpeed, acceleration, controlType, friction, maxGear, selfdrive = false){
         this.x=x;
         this.y=y;
         this.width=width;
@@ -17,9 +17,11 @@ class Car{
         // if (scenario == "parking"){
         //     this.maxSpeed = this.maxSpeed * 0.4
         // }
-        this.controls=new Controls(controlType, maxGear);
+        this.controls=new Controls(controlType, maxGear, selfdrive);
         if(controlType!="DUMMY"){
             this.sensor=new Sensor(this);
+            this.controls.gear = 5;
+            
         }
         else if (controlType == "DUMMY"){
             this.controls.gear = 4;
@@ -29,14 +31,14 @@ class Car{
     update(roadBorders,traffic){
         if(!this.damaged){
             this.#move();
-            this.#changeGear( 5);
+            this.#changeGear(5);
             this.polygon=this.#createPolygon();
             this.damaged=this.#assessDamage(roadBorders,traffic);
         }
         if(this.sensor){
             document.getElementById("gearCount").innerHTML = "Current Gear: " + this.controls.gear;
             document.getElementById("speedDisplay").innerHTML = "Current Speed: " + Math.abs((Math.round(this.speed * 2 * 3.6))) + "km/h";
-
+            this.offsets = this.sensor.readings.map(s => s==null?0:1-s.offset);
 
             this.sensor.update(roadBorders,traffic);
         }
@@ -45,7 +47,6 @@ class Car{
 
     #changeGear(maxGear){
         this.maxSpeed = (this.maxSpeedInMS / maxGear) * this.controls.gear;
-
     }
 
     #assessDamage(roadBorders,traffic){

@@ -4,11 +4,18 @@ class Main{
         this.canvas.width=200;
         this.ctx = this.canvas.getContext("2d");
         this.scenario = scenario;
+        this.scenarioHandler();
 
-        switch(scenario){
+        
+        // this.x = new NeuralNetwork(this.car.sensor.rayCount, 6);
+
+    }
+
+    scenarioHandler(){
+        switch(this.scenario){
             case "vparking":
                 this.roadWidth = 150;
-                this.friction = 0.05;
+                this.friction = 0.075;
                 this.road=new Road(this.roadWidth/2,this.roadWidth*0.9, 2, "default");
                 console.log(this.road)
                 this.car = new Car(this.road.getLaneCenter(1),100,30,50, 50, 1.2, 'KEYS',this.friction, 5);
@@ -19,7 +26,7 @@ class Main{
 
             case "pparking":
                 this.roadWidth = 150;
-                this.friction = 0.05;
+                this.friction = 0.075;
                 this.road=new Road(this.roadWidth/2,this.roadWidth*0.9, 2, "default");
                 console.log(this.road)
                 this.car = new Car(this.road.getLaneCenter(1),100,30,50, 50, 1.2, 'KEYS',this.friction, 5);
@@ -27,15 +34,34 @@ class Main{
                 this.createTraffic(350)
 
                 break;
-
-            default:
+            
+            case "keyControls":
                 this.roadWidth = this.canvas.width
-                this.friction = 0.05;
+                this.friction = 0.075;
                 this.road=new Road(this.roadWidth/2,this.roadWidth*0.9, 3);
                 this.car = new Car(this.road.getLaneCenter(2),100,30,50, 50, 1.2, 'KEYS',this.friction, 5);
                 this.createTraffic("RDM")
+                break;
+
+            default:
+                this.roadWidth = this.canvas.width
+                this.friction = 0.075;
+                this.road=new Road(this.roadWidth/2,this.roadWidth*0.9, 3);
+                this.car = new Car(this.road.getLaneCenter(2),100,30,50, 50, 1.2, 'KEYS',this.friction, 5, true);
+                this.createTraffic("RDM")
 
         }
+    }
+
+    reset(){
+        this.canvas = document.getElementById("myCanvas")
+        this.canvas.width=200;
+        this.ctx = this.canvas.getContext("2d");
+        this.traffic = [];
+        this.scenario = this.scenario;
+
+        this.scenarioHandler()
+
     }
 
     createTraffic(y){
@@ -68,6 +94,8 @@ class Main{
         this.car.draw(this.ctx,"black");
     }
 
+    
+
     animate(){
         this.generateTraffic();
 
@@ -83,5 +111,7 @@ class Main{
     }
 }
 
-const main = new Main();
+const main = new Main("keyControls");
 main.animate()
+// const model = new Model(main)
+// model.trainAgent()
